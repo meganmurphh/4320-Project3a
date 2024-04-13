@@ -5,43 +5,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stock Chart Generator</title>
 </head>
-<body>
-    <h1>Stock Chart Generator</h1>
-    <form action="/" method="post">
-        <label for="stock-symbol">Stock Symbol:</label>
-        <select name="stock-symbol" id="stock-symbol">
-            <option value="AAPL">Apple Inc. (AAPL)</option>
-            <option value="GOOGL">Alphabet Inc. (GOOGL)</option>
-            <!-- Add more options as needed -->
-        </select><br><br>
+<div style="text-align: center;">
+    <body>
+        <h1>Stock Chart Generator</h1>
+        <form action="/" method="post">
+            <label for="stock-symbol">Stock Symbol:</label>
+            <select name="stock-symbol" id="stock-symbol">
+                {% for symbol in stock_symbols %}
+                    <option value="{{ symbol }}" {% if selected_symbol == symbol %} selected {% endif %}>{{ symbol }}</option>
+                {% endfor %}
+            </select>
+            
 
-        <label for="begin-date">Begin Date:</label>
-        <input type="date" id="begin-date" name="begin-date"><br><br>
+            <label for="begin-date">Begin Date:</label>
+            <input type="date" id="begin-date" name="begin-date"><br><br>
 
-        <label for="end-date">End Date:</label>
-        <input type="date" id="end-date" name="end-date"><br><br>
+            <label for="end-date">End Date:</label>
+            <input type="date" id="end-date" name="end-date"><br><br>
 
-        <label for="chart-type">Chart Type:</label>
-        <select name="chart-type" id="chart-type">
-            <option value="line">Line Chart</option>
-            <option value="bar">Bar Chart</option>
-        </select><br><br>
+            <label for="chart-type">Chart Type:</label>
+            <select name="chart-type" id="chart-type">
+                <option value="line">Line Chart</option>
+                <option value="bar">Bar Chart</option>
+            </select><br><br>
 
-        <label for="time-series">Time Series:</label>
-        <select name="time-series" id="time-series">
-            <option value="TIME_SERIES_INTRADAY">Intradaily</option>
-            <option value="TIME_SERIES_DAILY">Daily</option>
-            <option value="TIME_SERIES_MONTHLY">Monthly</option>
-            <option value="TIME_SERIES_YEARLY">Yearly</option>
-        </select><br><br>
+            <label for="time-series">Time Series:</label>
+            <select name="time-series" id="time-series">
+                <option value="TIME_SERIES_INTRADAY">Intradaily</option>
+                <option value="TIME_SERIES_DAILY">Daily</option>
+                <option value="TIME_SERIES_MONTHLY">Monthly</option>
+                <option value="TIME_SERIES_YEARLY">Yearly</option>
+            </select><br><br>
 
-        <button type="submit">Generate Chart</button>
+            <button type="submit">Generate Chart in New Tab</button>
+            
+        </form>
         
-    </form>
-    
-    {% if chart_url %}
-    <h2>Generated Chart</h2>
-    <img src="{{ chart_url }}" alt="Stock Chart">
-    {% endif %}
-</body>
+        {% if chart_url %}
+        <h2>Generated Chart</h2>
+        <img src="{{ chart_url }}" alt="Stock Chart">
+        {% endif %}
+    </body>
+</div>
 </html>

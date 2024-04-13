@@ -75,10 +75,12 @@ def input_date(prompt=""):
 def fetch_stock_data(stock_symbol, time_series_function):
     url = f"https://www.alphavantage.co/query?function={time_series_function}&symbol={stock_symbol}&interval=5min&apikey=TKD85DJRC6KNT94C"
     r = requests.get(url)
-    print("API Response:", r.text)  # Print the API response
     data = r.json()
-    print("Parsed JSON Data:", data)  # Print the parsed JSON data
+    if 'Error Message' in data:
+        print("API Error:", data['Error Message'])
+        return None
     return data
+
 
 def filter_data_by_date(timeseries, begin_date, end_date):
     filtered_dates = []
@@ -87,16 +89,12 @@ def filter_data_by_date(timeseries, begin_date, end_date):
     filtered_values_high = []
     filtered_values_low = []
     for date, value in timeseries.items():
-        print("Checking date:", date)
         if begin_date <= date <= end_date:
-            print("Date within range")
             filtered_dates.append(date)
             filtered_values_close.append(float(value['4. close']))
             filtered_values_open.append(float(value['1. open']))
             filtered_values_high.append(float(value['2. high']))
             filtered_values_low.append(float(value['3. low']))
-        else:
-            print("Date outside range")
     return filtered_dates, filtered_values_close, filtered_values_open, filtered_values_high, filtered_values_low
 
 
